@@ -11,5 +11,6 @@ namespace SIBILA_API.Data
         public DbSet<Libro> Libros { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Roles> Roles { get; set; } // roles en relación
+        public DbSet<Prestamos> Prestamos { get; set; } // prestamos en relación
     }
 }
