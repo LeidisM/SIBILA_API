@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIBILA_API", "SIBILA_API.csproj", "{5E80BA89-21B4-418C-A0BD-5BAD77828CAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E80BA89-21B4-418C-A0BD-5BAD77828CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E80BA89-21B4-418C-A0BD-5BAD77828CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E80BA89-21B4-418C-A0BD-5BAD77828CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E80BA89-21B4-418C-A0BD-5BAD77828CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C43AC5A-7D47-4CC6-A9FD-454DFB93C591}
+	EndGlobalSection
+EndGlobal
