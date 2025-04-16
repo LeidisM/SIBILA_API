@@ -18,14 +18,12 @@ namespace SIBILA_API.Controllers
             _context = context;
         }
 
-        // GET: api/Usuarios
         [HttpGet]
         public async Task<IEnumerable<Prestamos>> GetPrestamos()
         {
             return await _context.Prestamos.Include(p => p.Usuario).Include(p => p.Libro).Where(x => x.FechaDevolucion == null).ToListAsync();
         }
 
-        // GET: api/Usuarios/5
         [HttpGet("{id}")]
         public async Task<Prestamos> GetPrestamo(int id)
         {
