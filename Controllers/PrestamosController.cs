@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SIBILA_API.Data;
 using SIBILA_API.Models;
+using SIBILA_API.Models.Dtos;
 
 namespace SIBILA_API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PrestamosController
     {
         private readonly AppDbContext _context;
@@ -31,7 +32,7 @@ namespace SIBILA_API.Controllers
             return await _context.Prestamos.Include(p => p.Usuario).Include(p => p.Libro).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        [HttpPost]        
+        [HttpPost("{id}")]        
         public async Task<bool> Devolver(int id)
         {
             var prestamo = await _context.Prestamos.FindAsync(id);
@@ -56,56 +57,66 @@ namespace SIBILA_API.Controllers
             return true;
         }
 
-        //// POST: api/Usuarios
-        //[HttpPost]
-        //public async Task<ActionResult<Usuarios>> PostPrestamo(Prestamos usuario)
-        //{
-        //    var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Documento == prestamoVm.Documento);
-        //    if (usuario == null)
-        //    {
-        //        TempData["ErrorMessage"] = "Usuario no encontrado.";
-        //        return View(prestamoVm);
-        //    }
+        [HttpPost]
+        public async Task<bool> CrearPrestamo(CrearPrestamoDto prestamoDto)
+        {
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Documento == prestamoDto.DocumentoUsuario);
+            if (usuario == null)
+            {
+                return false;
+            }
+            var libro = await _context.Libros.FirstOrDefaultAsync(l => l.ISBN == prestamoDto.ISBNLibro);
+            if (libro == null)
+            {
+                return false;
+            }
 
-        //    // Busca el libro en la base de datos según su ISBN.
-        //    var libro = await _context.Libros.FirstOrDefaultAsync(l => l.ISBN == prestamoVm.ISBN);
-        //    if (libro == null)
-        //    {
-        //        TempData["ErrorMessage"] = "Libro no encontrado.";
-        //    }
-        //    // Crea un nuevo préstamo con la fecha actual.
-        //    var prestamo = new Prestamos();
-        //    prestamo.Usuario = usuario;
-        //    prestamo.Libro = libro;
-        //    prestamo.FechaPrestamo = DateTime.Now;
+            var prestamo = new Prestamos();
+            prestamo.Usuario = usuario;
+            prestamo.Libro = libro;
+            prestamo.FechaPrestamo = DateTime.Now;
 
-        //    _context.Prestamos.Add(prestamo);
-        //    await _context.SaveChangesAsync();
-        //    return CreatedAtAction(nameof(GetUsuario), new { id = usuario.Id }, usuario);
-        //}
+            _context.Prestamos.Add(prestamo);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
-        //// PUT: api/Usuarios/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUsuario(int id, Usuarios usuario)
-        //{
-        //    if (id != usuario.Id)
-        //        return BadRequest();
+        [HttpPost]
+        public async Task<bool> EditarPrestamo(CrearPrestamoDto prestamoDto)
+        {
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Documento == prestamoDto.DocumentoUsuario);
+            if (usuario == null)
+            {
+                return false;
+            }
+            var libro = await _context.Libros.FirstOrDefaultAsync(l => l.ISBN == prestamoDto.ISBNLibro);
+            if (libro == null)
+            {
+                return false;
+            }
 
-        //    _context.Entry(usuario).State = EntityState.Modified;
+            var prestamo = await _context.Prestamos.FirstOrDefaultAsync(x => x.Id == prestamoDto.Id);
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!_context.Usuarios.Any(e => e.Id == id))
-        //            return NotFound();
-        //        else
-        //            throw;
-        //    }
+            if(prestamo == null)
+            {
+                return false;
+            }
 
-        //    return NoContent();
-        //}
+            prestamo.Libro = libro;
+            prestamo.Usuario = usuario;
+            _context.Update(prestamo);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        [HttpGet]
+        public async Task<List<Prestamos>> GetDevoluciones()
+        {
+            return await _context.Prestamos
+                .Include(p => p.Usuario)
+                .Include(p => p.Libro)
+                .Where(p => p.FechaDevolucion != null) // Filtra solo los préstamos devueltos
+                .ToListAsync();
+        }
     }
 }
