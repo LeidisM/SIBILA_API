@@ -2,11 +2,13 @@
 using SIBILA_API.Data;
 using SIBILA_API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SIBILA_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LibrosController : ControllerBase
     {
         private readonly AppDbContext _context;
