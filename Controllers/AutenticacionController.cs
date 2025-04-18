@@ -29,7 +29,7 @@ namespace SIBILA_API.Controllers
                 return BadRequest(ModelState);
 
             var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.CorreoElectronico == model.Email && (u.RolId == 1 || u.RolId == 2));
+                .FirstOrDefaultAsync(u => u.CorreoElectronico == model.Email && (u.Rol.Nombre == "Administrador" || u.Rol.Nombre == "Profesional administrativo"));
 
             if (usuario == null || model.Password != usuario.Contrasena)
             {
