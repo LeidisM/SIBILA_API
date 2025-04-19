@@ -11,7 +11,7 @@ using SIBILA_API.Data;
 namespace SIBILA_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250419165424_initial-schema")]
+    [Migration("20250419184722_initial-schema")]
     partial class initialschema
     {
         /// <inheritdoc />

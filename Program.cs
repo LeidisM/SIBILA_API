@@ -38,12 +38,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 var dbProvider = builder.Configuration["DatabaseProvider"];
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -63,6 +57,57 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        logger.LogInformation($"Verificando estado de {dbProvider}...");
+
+        // Comprobar si se puede conectar a la base de datos
+        if (!context.Database.CanConnect())
+        {
+            logger.LogInformation($"La base de datos {dbProvider} no existe, aplicando migraciones...");
+            context.Database.Migrate();
+            logger.LogInformation("Base de datos creada y migraciones aplicadas");
+
+            // Insertar datos iniciales
+            SeedData.Initialize(services);
+        }
+        else
+        {
+            // Verificar si hay migraciones pendientes
+            //var pendingMigrations = context.Database.GetPendingMigrations().ToList();
+            //if (pendingMigrations.Any())
+            //{
+            //    logger.LogInformation($"Aplicando {pendingMigrations.Count} migraciones pendientes para {dbProvider}...");
+            //    context.Database.Migrate();
+            //    logger.LogInformation("Migraciones pendientes aplicadas");
+
+            //    // Opcional: Verificar si necesita datos iniciales
+            //    if (!context.Usuarios.Any() || !context.Libros.Any())
+            //    {
+            //        SeedData.Initialize(services);
+            //    }
+            //}
+        }
+
+        // Verificación final de datos
+        if (!context.Usuarios.Any())
+        {
+            logger.LogWarning("No se encontraron usuarios, insertando datos iniciales...");
+            SeedData.Initialize(services);
+        }
+    }
+    catch (Exception ex)
+    {        
+        throw;        
+    }
+}
 
 // Habilitar CORS
 app.UseCors("PermitirFrontend");
