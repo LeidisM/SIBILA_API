@@ -41,8 +41,22 @@ builder.Services.AddCors(options =>
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var dbProvider = builder.Configuration["DatabaseProvider"];
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    if (dbProvider == "SqlServer")
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+    }
+    else
+    {
+        options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite"));
+    }
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
