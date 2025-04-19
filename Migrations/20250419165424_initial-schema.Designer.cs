@@ -11,8 +11,8 @@ using SIBILA_API.Data;
 namespace SIBILA_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250419024911_data-roles")]
-    partial class dataroles
+    [Migration("20250419165424_initial-schema")]
+    partial class initialschema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
