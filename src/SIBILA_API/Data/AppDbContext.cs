@@ -8,9 +8,9 @@ namespace SIBILA_API.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Libro> Libros { get; set; }
-        public DbSet<Usuarios> Usuarios { get; set; }
-        public DbSet<Roles> Roles { get; set; } // roles en relación
-        public DbSet<Prestamos> Prestamos { get; set; } // prestamos en relación
+        public virtual DbSet<Libro> Libros { get; set; }
+        public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; } // roles en relación
+        public virtual DbSet<Prestamos> Prestamos { get; set; } // prestamos en relación
     }
 }
