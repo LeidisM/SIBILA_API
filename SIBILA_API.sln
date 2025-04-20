@@ -4,6 +4,8 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIBILA_API", "src\SIBILA_API\SIBILA_API.csproj", "{954C4599-EE53-4805-8860-18CB948C832D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIBILA_API.Tests", "test\SIBILA_API.Tests\SIBILA_API.Tests\SIBILA_API.Tests.csproj", "{D9E52BF4-BE6F-4AE3-83CA-B9D6041F842C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +16,10 @@ Global
 		{954C4599-EE53-4805-8860-18CB948C832D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{954C4599-EE53-4805-8860-18CB948C832D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{954C4599-EE53-4805-8860-18CB948C832D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E52BF4-BE6F-4AE3-83CA-B9D6041F842C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E52BF4-BE6F-4AE3-83CA-B9D6041F842C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E52BF4-BE6F-4AE3-83CA-B9D6041F842C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E52BF4-BE6F-4AE3-83CA-B9D6041F842C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
